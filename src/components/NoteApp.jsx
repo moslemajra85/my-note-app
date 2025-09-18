@@ -1,120 +1,118 @@
 import { useState } from "react";
 
 const NoteApp = () => {
+  const [formData, setFormData] = useState({
+    title: "",
+    priority: "low",
+    category: "work",
+    description: "",
+  });
 
-    const [formData, setFormData] = useState({
+  const [notes, setNotes] = useState([]);
 
-        title: '',
-        priority: 'low',
-        category: 'work',
-        description: '',
-    })
+  const handleFormData = (event) => {
+    setFormData({
+      ...formData,
+      [event.target.name]: event.target.value,
+    });
+  };
 
-    const handleFormData = (event) => {
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log(formData);
+  };
 
-        setFormData({
-
-            ...formData,
-            [event.target.name]: event.target.value,
-        })
-    }
-
-
-
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        console.log(formData);
-    }
-
-
-
-    return (
-        <div>
-            <h1 className="text-3xl text-center text-blue-400 font-bold">📓 Note App</h1>
-            <form onSubmit={handleSubmit}>
-                <div className="mb-3">
-                    <label className="block text-gray-600 font-semibold" htmlFor="title">
-                        Title:
-                    </label>
-                    <input
-
-                        onChange={handleFormData}
-                        className="border-2 border-blue-400 outline-0 p-3 rounded-md w-full"
-                        type="text"
-                        name="title"
-                        id="title"
-                        value={formData.title}
-                    />
-                </div>
-
-                <div className="mb-3">
-                    <label
-                        className="block text-gray-600 font-semibold"
-                        htmlFor="priority"
-                    >
-                        Priority:
-                    </label>
-                    <select
-
-                        onChange={handleFormData}
-                        className="border-2 border-blue-400 outline-0 p-3 rounded-md w-full"
-                        name="priority"
-                        id="priority"
-                        value={formData.priority}
-                    >
-                        <option value="high">🍎 High</option>
-                        <option value="medium">🍏 Medium</option>
-                        <option value="low">🌶 Low</option>
-                    </select>
-                </div>
-
-                <div className="mb-3">
-                    <label
-                        className="block text-gray-600 font-semibold"
-                        htmlFor="category"
-                    >
-                        Category:
-                    </label>
-                    <select
-                        onChange={handleFormData}
-                        className="border-2 border-blue-400 outline-0 p-3 rounded-md w-full"
-                        name="category"
-                        id="category"
-                        value={formData.category}
-                    >
-                        <option value="work">💰 Work</option>
-                        <option value="personal">🙋 Personal</option>
-                        <option value="ideas">💡Ideas</option>
-                    </select>
-                </div>
-
-                <div className="mb-3">
-                    <label className="block text-gray-600 font-semibold" htmlFor="title">
-                        Description:
-                    </label>
-                    <textarea
-                        onChange={handleFormData}
-                        className="border-2 border-blue-400 outline-0 p-3 rounded-md w-full"
-                        type="text"
-                        name="description"
-                        id="description"
-                        value={formData.description}
-
-                    ></textarea>
-                </div>
-
-                <button
-                    type="submit"
-                    className="bg-blue-400 text-2xl text-white p-4 rounded-lg border-0 shadow-lg w-full cursor-pointer hover:bg-blue-700 transition-all duration-500"
-                >
-                    Save Note
-                </button>
-            </form>
-
-
+  return (
+    <div>
+      <h1 className="text-3xl text-center text-blue-400 font-bold">
+        📓 Note App
+      </h1>
+      <form onSubmit={handleSubmit}>
+        <div className="mb-3">
+          <label className="block text-gray-600 font-semibold" htmlFor="title">
+            Title:
+          </label>
+          <input
+            onChange={handleFormData}
+            className="border-2 border-blue-400 outline-0 p-3 rounded-md w-full"
+            type="text"
+            name="title"
+            id="title"
+            value={formData.title}
+          />
         </div>
-    );
+
+        <div className="mb-3">
+          <label
+            className="block text-gray-600 font-semibold"
+            htmlFor="priority"
+          >
+            Priority:
+          </label>
+          <select
+            onChange={handleFormData}
+            className="border-2 border-blue-400 outline-0 p-3 rounded-md w-full"
+            name="priority"
+            id="priority"
+            value={formData.priority}
+          >
+            <option value="high">🍎 High</option>
+            <option value="medium">🍏 Medium</option>
+            <option value="low">🌶 Low</option>
+          </select>
+        </div>
+
+        <div className="mb-3">
+          <label
+            className="block text-gray-600 font-semibold"
+            htmlFor="category"
+          >
+            Category:
+          </label>
+          <select
+            onChange={handleFormData}
+            className="border-2 border-blue-400 outline-0 p-3 rounded-md w-full"
+            name="category"
+            id="category"
+            value={formData.category}
+          >
+            <option value="work">💰 Work</option>
+            <option value="personal">🙋 Personal</option>
+            <option value="ideas">💡Ideas</option>
+          </select>
+        </div>
+
+        <div className="mb-3">
+          <label className="block text-gray-600 font-semibold" htmlFor="title">
+            Description:
+          </label>
+          <textarea
+            onChange={handleFormData}
+            className="border-2 border-blue-400 outline-0 p-3 rounded-md w-full"
+            type="text"
+            name="description"
+            id="description"
+            value={formData.description}
+          ></textarea>
+        </div>
+
+        <button
+          type="submit"
+          className="bg-blue-400 text-2xl text-white p-4 rounded-lg border-0 shadow-lg w-full cursor-pointer hover:bg-blue-700 transition-all duration-500"
+        >
+          Save Note
+        </button>
+      </form>
+
+      {/* Where we will show our notes */}
+
+      {notes.length === 0 ? (
+        <p className="text-blue-400 text-center p-4 text-2xl font-bold">No Note Yet</p>
+      ) : (
+        <p>Next Time</p>
+      )}
+    </div>
+  );
 };
 
 export default NoteApp;
