@@ -2,29 +2,29 @@ import { useState } from "react";
 
 const NoteApp = () => {
 
+    const [formData, setFormData] = useState({
 
+        title: '',
+        priority: 'low',
+        category: 'work',
+        description: '',
+    })
 
-    const [title, setTitle] = useState('')
-    const [priority, setPriority] = useState('low')
-    const [category, setCategory] = useState('work')
-    const [description, setDescription] = useState('')
+    const handleFormData = (event) => {
 
+        setFormData({
 
-
-    const handleTitleChange = (event) => {
-        setTitle(event.target.value)
+            ...formData,
+            [event.target.name]: event.target.value,
+        })
     }
 
-    const handlePriorityChange = (event) => {
-        setPriority(event.target.value)
-    }
 
-    const handleCategoryChange = (event) => {
-        setCategory(event.target.value)
-    }
 
-    const handleDescriptionChange = (event) => {
-        setDescription(event.target.value)
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        console.log(formData);
     }
 
 
@@ -32,18 +32,19 @@ const NoteApp = () => {
     return (
         <div>
             <h1 className="text-3xl text-center text-blue-400 font-bold">📓 Note App</h1>
-            <form>
+            <form onSubmit={handleSubmit}>
                 <div className="mb-3">
                     <label className="block text-gray-600 font-semibold" htmlFor="title">
                         Title:
                     </label>
                     <input
 
-                        onChange={handleTitleChange}
+                        onChange={handleFormData}
                         className="border-2 border-blue-400 outline-0 p-3 rounded-md w-full"
                         type="text"
                         name="title"
                         id="title"
+                        value={formData.title}
                     />
                 </div>
 
@@ -56,10 +57,11 @@ const NoteApp = () => {
                     </label>
                     <select
 
-                        onChange={handlePriorityChange}
+                        onChange={handleFormData}
                         className="border-2 border-blue-400 outline-0 p-3 rounded-md w-full"
                         name="priority"
                         id="priority"
+                        value={formData.priority}
                     >
                         <option value="high">🍎 High</option>
                         <option value="medium">🍏 Medium</option>
@@ -75,10 +77,11 @@ const NoteApp = () => {
                         Category:
                     </label>
                     <select
-                        onChange={handleCategoryChange}
+                        onChange={handleFormData}
                         className="border-2 border-blue-400 outline-0 p-3 rounded-md w-full"
                         name="category"
                         id="category"
+                        value={formData.category}
                     >
                         <option value="work">💰 Work</option>
                         <option value="personal">🙋 Personal</option>
@@ -91,11 +94,12 @@ const NoteApp = () => {
                         Description:
                     </label>
                     <textarea
-                        onChange={handleDescriptionChange}
+                        onChange={handleFormData}
                         className="border-2 border-blue-400 outline-0 p-3 rounded-md w-full"
                         type="text"
                         name="description"
                         id="description"
+                        value={formData.description}
 
                     ></textarea>
                 </div>
@@ -107,6 +111,8 @@ const NoteApp = () => {
                     Save Note
                 </button>
             </form>
+
+
         </div>
     );
 };
