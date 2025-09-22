@@ -8,6 +8,8 @@ const NoteApp = () => {
     description: "",
   });
 
+
+
   const [notes, setNotes] = useState([]);
 
   const handleFormData = (event) => {
@@ -19,15 +21,46 @@ const NoteApp = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(formData);
+    const newNote = {
+
+      id: Date.now(),
+      ...formData
+    }
+
+    setNotes([...notes, newNote])
+
+    // clear the title and the description
+
+    setFormData({
+
+      ...formData,
+      title: "",
+      description: ""
+    })
+
+
   };
+
+
+
+  const createNote = (note) => {
+
+    setNotes([...notes, note])
+
+
+  }
+
+  const removeNote = (id) => {
+
+    setNotes(notes.filter((note) => note.id !== id))
+  }
 
   return (
     <div>
       <h1 className="text-3xl text-center text-blue-400 font-bold">
         📓 Note App
       </h1>
-      <form onSubmit={handleSubmit}>
+      <form className="mb-3" onSubmit={handleSubmit}>
         <div className="mb-3">
           <label className="block text-gray-600 font-semibold" htmlFor="title">
             Title:
@@ -109,7 +142,16 @@ const NoteApp = () => {
       {notes.length === 0 ? (
         <p className="text-blue-400 text-center p-4 text-2xl font-bold">No Note Yet</p>
       ) : (
-        <p>Next Time</p>
+
+        notes.map((note) => (<div className="relative mb-3 p-4 border-1 border-gray-400 rounded-lg shadow-lg">
+
+          <p><span className="font-semibold text-blue-400">Title: </span> {note.title}</p>
+          <p><span className="font-semibold text-blue-400">Priority: </span> {note.priority}</p>
+          <p><span className="font-semibold text-blue-400">Category: </span> {note.category}</p>
+          <p><span className="font-semibold text-blue-400">Description: </span> {note.description}</p>
+
+          <span onClick={() => removeNote(note.id)} className="absolute font-bold top-2 right-2 text-red-500 text-2xl cursor-pointer hover:text-red-700 transition-all duration-300">X</span>
+        </div>))
       )}
     </div>
   );
